@@ -13,7 +13,7 @@ export default function Navbar() {
           href="/"
           className="text-2xl font-bold text-sky-700"
         >
-          🚐 Seattle Shuttle
+          🚐 Aman's Seattle Shuttle
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
