@@ -2,22 +2,18 @@ const pricing = [
   {
     route: "Airport ↔ Hotel",
     price: "$25",
-    note: "Per passenger",
-  },
-  {
-    route: "Airport ↔ Hotel children Under 5",
-    price: "$15",
-    note: "Per passenger",
+    notes: [
+      "Per passenger",
+      "Children under 5: $15",
+    ],
   },
   {
     route: "Hotel ↔ Cruise Terminal",
     price: "$15",
-    note: "Per passenger",
-  },
-  {
-    route: "Hotel ↔ Cruise Terminal children Under 5",
-    price: "$12",
-    note: "Per child",
+    notes: [
+      "Per passenger",
+      "Children under 5: $12",
+    ],
   },
 ];
 
@@ -47,7 +43,13 @@ export default function Pricing() {
                 {item.price}
               </p>
 
-              <p className="mt-3 text-gray-600">{item.note}</p>
+              <div className="mt-4 space-y-1">
+                {item.notes.map((note) => (
+                    <p key={note} className="text-gray-600">
+                    {note}
+                    </p>
+                ))}
+              </div>
             </div>
           ))}
         </div>

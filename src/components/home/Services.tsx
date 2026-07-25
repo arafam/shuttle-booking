@@ -19,7 +19,7 @@ const services = [
   {
     title: "Hotel to Cruise Terminal",
     description:
-      "Transportation to Cruise 66, Cruise 91, and Cruise 99 terminals.",
+      "Transportation to Cruise 66 and Cruise 91 terminals.",
     icon: Ship,
     price: "$15 / person",
   },
