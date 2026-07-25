@@ -50,5 +50,5 @@ src/
 
 ## Status
 
-🚧 In progress — booking form and admin dashboard under active development.
+🚧 In progress - booking form and admin dashboard under active development.
 

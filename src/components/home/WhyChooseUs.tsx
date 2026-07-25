@@ -1,62 +1,66 @@
-import { ShieldCheck, Clock, Users, Car } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Clock3,
+  ShieldCheck,
+  Car,
+  BadgeDollarSign,
+} from "lucide-react";
 
 const features = [
   {
+    icon: Clock3,
+    title: "Always On Time",
+    description: "We monitor flights and arrive promptly for every pickup.",
+  },
+  {
     icon: ShieldCheck,
-    title: "Licensed & Insured",
-    description: "Professional transportation service you can trust.",
-  },
-  {
-    icon: Clock,
-    title: "On-Time Pickup",
-    description: "We monitor schedules and arrive when you need us.",
-  },
-  {
-    icon: Users,
-    title: "Family Friendly",
-    description: "Comfortable rides for individuals, families, and groups.",
+    title: "Safe & Reliable",
+    description: "Professional drivers focused on safety and comfort.",
   },
   {
     icon: Car,
-    title: "Clean Vehicles",
-    description: "Well-maintained, clean, and comfortable shuttle vehicles.",
+    title: "Comfortable Vehicles",
+    description: "Clean, spacious, and well-maintained shuttle vehicles.",
+  },
+  {
+    icon: BadgeDollarSign,
+    title: "Affordable Rates",
+    description: "Transparent pricing with no hidden fees.",
   },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-20">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-gray-50 py-20">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <h2 className="text-4xl font-bold text-sky-700">
             Why Choose Us
           </h2>
+
           <p className="mt-4 text-gray-600">
-            Reliable transportation backed by professional service.
+            Trusted transportation for airport and cruise travelers.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-8 md:grid-cols-2">
           {features.map((feature) => {
             const Icon = feature.icon;
 
             return (
-              <Card key={feature.title} className="text-center">
-                <CardContent className="p-8">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-sky-100">
-                    <Icon className="h-8 w-8 text-sky-700" />
-                  </div>
+              <div
+                key={feature.title}
+                className="rounded-2xl bg-white p-8 shadow-md"
+              >
+                <Icon className="mb-4 h-12 w-12 text-sky-700" />
 
-                  <h3 className="text-xl font-semibold">
-                    {feature.title}
-                  </h3>
+                <h3 className="text-2xl font-semibold">
+                  {feature.title}
+                </h3>
 
-                  <p className="mt-3 text-gray-600">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
+                <p className="mt-3 text-gray-600">
+                  {feature.description}
+                </p>
+              </div>
             );
           })}
         </div>
