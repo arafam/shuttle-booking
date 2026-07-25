@@ -15,6 +15,14 @@ const pricing = [
       "Children under 5: $12",
     ],
   },
+  {
+    route: "And any other route you need",
+    price: "Contact us",
+    notes: [
+      "We can provide transportation to any location in the Seattle area.",
+      //"Children under 5: $12",
+    ],
+  },
 ];
 
 export default function Pricing() {
