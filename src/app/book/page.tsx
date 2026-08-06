@@ -21,7 +21,7 @@ export default function BookPage() {
 
           <div className="rounded-2xl bg-white p-6 shadow-xl">
             <iframe
-              src="https://tally.so/embed/Ekr05o?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              src="https://tally.so/embed/Ekr05o?alignLeft=1&dynamicHeight=1"
               width="100%"
               height="1400"
               frameBorder="0"
