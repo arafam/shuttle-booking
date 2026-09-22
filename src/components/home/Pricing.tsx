@@ -1,18 +1,20 @@
+import { PRICING } from "@/constants/pricing";
+
 const pricing = [
   {
     route: "Airport ↔ Hotel",
-    price: "$25",
+    price: PRICING.airportHotel.adult,
     notes: [
       "Per passenger",
-      "Children under 5: $15",
+      `Children under 5: $${PRICING.airportHotel.childUnder5}`,
     ],
   },
   {
     route: "Hotel ↔ Cruise Terminal",
-    price: "$15",
+    price: PRICING.hotelCruise.adult,
     notes: [
       "Per passenger",
-      "Children under 5: $12",
+      `Children under 5: $${PRICING.hotelCruise.childUnder5}`,
     ],
   },
   {
@@ -20,7 +22,6 @@ const pricing = [
     price: "Contact us",
     notes: [
       "We can provide transportation to any location in the Seattle area.",
-      //"Children under 5: $12",
     ],
   },
 ];
@@ -48,14 +49,16 @@ export default function Pricing() {
               <h3 className="text-2xl font-semibold">{item.route}</h3>
 
               <p className="mt-6 text-5xl font-bold text-sky-700">
-                {item.price}
+                {typeof item.price === "number"
+                  ? `$${item.price}`
+                  : item.price}
               </p>
 
               <div className="mt-4 space-y-1">
                 {item.notes.map((note) => (
-                    <p key={note} className="text-gray-600">
+                  <p key={note} className="text-gray-600">
                     {note}
-                    </p>
+                  </p>
                 ))}
               </div>
             </div>

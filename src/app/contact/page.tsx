@@ -18,12 +18,12 @@ export default function ContactPage() {
 
             <div className="flex items-center gap-4">
               <Phone className="text-sky-700" />
-              <span>(206) XXX-XXXX</span>
+              <span>(206) 335-4739</span>
             </div>
 
             <div className="flex items-center gap-4">
               <Mail className="text-sky-700" />
-              <span>info@yourshuttle.com</span>
+              <span>Amans@shuttle.com</span>
             </div>
 
             <div className="flex items-center gap-4">

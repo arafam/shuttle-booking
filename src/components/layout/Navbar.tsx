@@ -25,7 +25,7 @@ export default function Navbar() {
           className="text-2xl font-bold text-sky-700"
           onClick={() => setMobileOpen(false)}
         >
-          🚐 Arafa's Airport Shuttle
+          🚐 Aman's Airport Shuttle
         </Link>
 
         {/* Desktop Navigation */}

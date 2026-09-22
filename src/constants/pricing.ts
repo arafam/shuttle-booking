@@ -8,8 +8,3 @@ export const PRICING = {
     childUnder5: 12,
   },
 };
-
-export const CRUISE_TERMINALS = [
-  "Pier 66",
-  "Pier 91",
-];

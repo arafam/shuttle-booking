@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 text-center">
 
         <h2 className="text-2xl font-bold">
-          Arafa's Airport Shuttle
+          Aman's Airport Shuttle
         </h2>
 
         <p className="mt-3 text-blue-200">
