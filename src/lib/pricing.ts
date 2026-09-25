@@ -13,7 +13,8 @@ export function calculatePrice({
   childrenUnder5,
 }: CalculatePriceInput): number {
   const isAirportHotel =
-    route === "airport-hotel" || route === "hotel-airport";
+    route === "airport-hotel" ||
+    route === "hotel-airport";
 
   const pricing = isAirportHotel
     ? PRICING.airportHotel
