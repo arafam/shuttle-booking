@@ -3,18 +3,19 @@ import { PRICING } from "@/constants/pricing";
 const pricing = [
   {
     route: "Airport ↔ Hotel",
-    price: PRICING.airportHotel.adult,
+    price: "$75",
     notes: [
-      "Per passenger",
-      `Children under 5: $${PRICING.airportHotel.childUnder5}`,
+      "For 1–3 passengers",
+      "Additional guests: $25 each",
+      "Children under 5: $15 each",
     ],
   },
   {
     route: "Hotel ↔ Cruise Terminal",
-    price: PRICING.hotelCruise.adult,
+    price: "$15",
     notes: [
       "Per passenger",
-      `Children under 5: $${PRICING.hotelCruise.childUnder5}`,
+      "Children under 5: $12 each",
     ],
   },
   {

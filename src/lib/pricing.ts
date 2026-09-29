@@ -16,9 +16,30 @@ export function calculatePrice({
     route === "airport-hotel" ||
     route === "hotel-airport";
 
-  const pricing = isAirportHotel
-    ? PRICING.airportHotel
-    : PRICING.hotelCruise;
+  if (isAirportHotel) {
+    const pricing = PRICING.airportHotel;
+
+    // No regular passengers:
+    // charge only for children under 5.
+    if (adults === 0) {
+      return childrenUnder5 * pricing.childUnder5;
+    }
+
+    // 1–3 regular passengers = $75 base fare.
+    const additionalPassengers = Math.max(
+      0,
+      adults - pricing.includedPassengers
+    );
+
+    return (
+      pricing.baseFare +
+      additionalPassengers * pricing.additionalPassenger +
+      childrenUnder5 * pricing.childUnder5
+    );
+  }
+
+  // Hotel ↔ Cruise Terminal
+  const pricing = PRICING.hotelCruise;
 
   return (
     adults * pricing.adult +
