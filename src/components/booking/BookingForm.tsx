@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import PriceCalculator from "./PriceCalculator";
+import { calculatePrice } from "@/lib/pricing";
+import type { BookingData } from "@/types/booking";
 import type { BookingRoute } from "@/types/booking";
 
 const routes: { value: BookingRoute; label: string }[] = [
@@ -50,8 +52,9 @@ export default function BookingForm() {
 
 
 
-  
-  function handleReview(event: FormEvent<HTMLFormElement>) {
+  // function handleReview(event: FormEvent<HTMLFormElement>) {
+  async function handleReview(event: FormEvent<HTMLFormElement>) {
+
     event.preventDefault();
 
     // Require at least one passenger.
@@ -100,7 +103,59 @@ export default function BookingForm() {
       return;
     }
 
-    setShowReview(true);
+
+    const totalPrice = calculatePrice({
+      route,
+      adults,
+      childrenUnder5,
+    });
+
+    const bookingData: BookingData = {
+      route,
+      pickupLocation: actualPickupLocation,
+      dropoffLocation: actualDropoffLocation,
+      cruiseTerminal: isCruiseRoute
+        ? cruiseTerminal
+        : undefined,
+      date,
+      time,
+      adults,
+      childrenUnder5,
+      customerName: customerName.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      notes: notes.trim() || undefined,
+      totalPrice,
+    };
+
+
+    console.log("Booking data:", bookingData);
+
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result.message || "Something went wrong.");
+        return;
+      }
+
+      console.log("Server response:", result);
+
+      setShowReview(true);
+    } catch (error) {
+      console.error("Booking submission error:", error);
+      alert("Unable to submit booking. Please try again.");
+    }
+
+
   }
 
 
@@ -432,6 +487,24 @@ export default function BookingForm() {
             />
           </div>
 
+
+          {/* <div className="mt-6 border-t border-sky-200 pt-6">
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold">
+                Booking Total
+              </span>
+
+              <span className="text-3xl font-bold text-sky-700">
+                $
+                {calculatePrice({
+                  route,
+                  adults,
+                  childrenUnder5,
+                }).toFixed(2)}
+              </span>
+            </div>
+          </div> */}
+
           
           <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
             <p className="font-semibold text-amber-900">
@@ -444,6 +517,7 @@ export default function BookingForm() {
               above before submitting your request.
             </p>
           </div>
+
 
         </div>
       )}
