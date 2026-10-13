@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Local AI and editor configuration
+.agents/
+.claude/
+.cursor/
+.devin/
+
+# Local booking preview — do not commit
+src/app/booking-preview/
