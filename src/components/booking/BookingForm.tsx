@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import PriceCalculator from "./PriceCalculator";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { calculatePrice } from "@/lib/pricing";
 import type { BookingData } from "@/types/booking";
 import type { BookingRoute } from "@/types/booking";
@@ -29,6 +30,11 @@ export default function BookingForm() {
   const [notes, setNotes] = useState("");
 
   const [showReview, setShowReview] = useState(false);
+  const [reviewedBooking, setReviewedBooking] =
+    useState<BookingData | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isCruiseRoute =
     route === "hotel-cruise" || route === "cruise-hotel";
@@ -52,8 +58,8 @@ export default function BookingForm() {
 
 
 
-  // function handleReview(event: FormEvent<HTMLFormElement>) {
-  async function handleReview(event: FormEvent<HTMLFormElement>) {
+  function handleReview(event: FormEvent<HTMLFormElement>) {
+  // async function handleReview(event: FormEvent<HTMLFormElement>) {
 
     event.preventDefault();
 
@@ -131,38 +137,95 @@ export default function BookingForm() {
 
     console.log("Booking data:", bookingData);
 
+    // try {
+    //   const response = await fetch("/api/bookings", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(bookingData),
+    //   });
+
+    //   const result = await response.json();
+
+    //   if (!response.ok) {
+    //     alert(result.message || "Something went wrong.");
+    //     return;
+    //   }
+
+    //   console.log("Server response:", result);
+
+    //   setShowReview(true);
+    // } catch (error) {
+    //   console.error("Booking submission error:", error);
+    //   alert("Unable to submit booking. Please try again.");
+    // }
+
+    setReviewedBooking(bookingData);
+    setShowReview(true);
+
+
+  }
+
+
+  async function handleSubmit() {
+    if (!reviewedBooking || isSubmitting) return;
+
+    if (!turnstileToken) {
+      alert("Please complete the security check before submitting.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify({
+          ...reviewedBooking,
+          turnstileToken,
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
         alert(result.message || "Something went wrong.");
+        setTurnstileToken("");
+        setTurnstileResetKey((key) => key + 1);
         return;
       }
 
-      console.log("Server response:", result);
+      alert("Your booking has been submitted successfully!");
 
-      setShowReview(true);
+      setShowReview(false);
+      setReviewedBooking(null);
+      setTurnstileToken("");
+      setTurnstileResetKey((key) => key + 1);
     } catch (error) {
       console.error("Booking submission error:", error);
       alert("Unable to submit booking. Please try again.");
+      setTurnstileToken("");
+      setTurnstileResetKey((key) => key + 1);
+    } finally {
+      setIsSubmitting(false);
     }
-
-
   }
 
 
   return (
     <form
       onSubmit={handleReview}
-      onChange={() => setShowReview(false)}
+      // onChange={() => setShowReview(false)}
+      onChange={() => {
+        setShowReview(false);
+        setReviewedBooking(null);
+        setTurnstileToken("");
+      }}
+
       className="mx-auto max-w-4xl space-y-8"
     >
       <div className="rounded-2xl bg-white p-6 shadow-md md:p-8">
@@ -517,6 +580,29 @@ export default function BookingForm() {
               above before submitting your request.
             </p>
           </div>
+
+
+          <div className="mt-6 border-t border-sky-200 pt-6">
+            <p className="mb-3 font-medium text-gray-800">
+              Complete the security check to submit your booking.
+            </p>
+            <Turnstile
+              key={turnstileResetKey}
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""}
+              onSuccess={(token) => setTurnstileToken(token)}
+              onExpire={() => setTurnstileToken("")}
+              onError={() => setTurnstileToken("")}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={!reviewedBooking || !turnstileToken || isSubmitting}
+            className="mt-6 w-full rounded-xl bg-green-700 px-6 py-4 text-lg font-semibold text-white transition hover:bg-green-800 disabled:opacity-50"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Booking"}
+          </button>
 
 
         </div>
